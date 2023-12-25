@@ -1,0 +1,405 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>720</height>
+   </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>1280</width>
+    <height>720</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>1280</width>
+    <height>720</height>
+   </size>
+  </property>
+  <property name="windowTitle">
+   <string>TextAnalizator</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:#282828;</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QTabWidget" name="tabWidget">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>1281</width>
+      <height>721</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QTabWidget{
+border: none;
+}         
+  QTabBar::tab {
+font-size: 20px;
+font-weight: bold;
+border-radius:15px;
+padding:10px 5px;
+margin: 5px 3px;
+background-color: #280886;
+color:#FFFFFF;
+            }
+           QTabBar::tab:selected {
+                background-color: #5215fc;
+            }</string>
+    </property>
+    <property name="tabPosition">
+     <enum>QTabWidget::West</enum>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <property name="documentMode">
+     <bool>false</bool>
+    </property>
+    <widget class="QWidget" name="tabMain">
+     <property name="styleSheet">
+      <string notr="true">border:none;</string>
+     </property>
+     <attribute name="title">
+      <string>Main</string>
+     </attribute>
+     <widget class="QTextBrowser" name="textBrowser">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>1211</width>
+        <height>421</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QTextBrowser {
+  background-color: #ffffff;
+  color: #000000;
+  font-family: Arial;
+  font-size: 12pt;
+ border-radius:15px;
+}</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="gridLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>150</x>
+        <y>480</y>
+        <width>957</width>
+        <height>141</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout">
+       <property name="leftMargin">
+        <number>20</number>
+       </property>
+       <property name="topMargin">
+        <number>20</number>
+       </property>
+       <property name="rightMargin">
+        <number>20</number>
+       </property>
+       <property name="bottomMargin">
+        <number>20</number>
+       </property>
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <item row="2" column="0">
+        <widget class="QPushButton" name="btnOpenFile">
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 15px;
+    background-color: rgb(40, 8, 134);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s; /* add transition for background and box shadow */
+}
+QPushButton:hover {
+   background-color: rgb(82, 21, 252);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+}</string>
+         </property>
+         <property name="text">
+          <string>Open File</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="5">
+        <widget class="QPushButton" name="btnRun">
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 15px;
+    background-color: rgb(40, 8, 134);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s; /* add transition for background and box shadow */
+}
+QPushButton:hover {
+   background-color: rgb(82, 21, 252);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+}</string>
+         </property>
+         <property name="text">
+          <string>Run</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label">
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+    display: inline-block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Ignore</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="4">
+        <widget class="QTextEdit" name="textFieldSearch">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QTextEdit{
+font-size: 16px;
+font-weight: bold;
+background-color: #ffffff;
+color:#282828;
+border-radius: 15px;
+border: 5px solid #280886
+
+}
+
+QTextEdit:hover{
+border: 5px solid #5215fc;
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="4">
+        <widget class="QLabel" name="label_2">
+         <property name="styleSheet">
+          <string notr="true">QLabel{
+    display: inline-block;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+
+}
+</string>
+         </property>
+         <property name="text">
+          <string>Search</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QTextEdit" name="textFieldIgnore">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QTextEdit{
+font-size: 16px;
+font-weight: bold;
+background-color: #ffffff;
+color:#282828;
+border-radius: 15px;
+border: 5px solid #280886
+
+}
+
+QTextEdit:hover{
+border: 5px solid #5215fc;
+}</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="btnClear">
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 15px;
+    background-color: rgb(40, 8, 134);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s; /* add transition for background and box shadow */
+}
+QPushButton:hover {
+   background-color: rgb(82, 21, 252);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+}</string>
+         </property>
+         <property name="text">
+          <string>Clear Input</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="tabData">
+     <attribute name="title">
+      <string>Data</string>
+     </attribute>
+     <widget class="QTableView" name="tableView">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>10</y>
+        <width>1211</width>
+        <height>471</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QTableView {
+  background-color: #ffffff;
+  color: #000000;
+  font-family: Arial;
+  font-size: 12pt;
+border-radius:15px;
+}
+
+QTableView::item {
+  border: 1px solid #dddddd;
+  padding: 5px;
+}
+
+QTableView::item:selected {
+  background-color: #dddddd;
+}</string>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QWidget" name="horizontalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>330</x>
+        <y>570</y>
+        <width>541</width>
+        <height>80</height>
+       </rect>
+      </property>
+      <layout class="QHBoxLayout" name="horizontalLayout">
+       <item>
+        <widget class="QPushButton" name="btnGenRep">
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 15px;
+    background-color: rgb(40, 8, 134);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s; /* add transition for background and box shadow */
+}
+QPushButton:hover {
+   background-color: rgb(82, 21, 252);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+}</string>
+         </property>
+         <property name="text">
+          <string>Generate report</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="btnDelRow">
+         <property name="styleSheet">
+          <string notr="true">QPushButton{
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 15px;
+    background-color: rgb(40, 8, 134);
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 16px;
+    cursor: pointer;
+     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.3s, box-shadow 0.3s; /* add transition for background and box shadow */
+}
+QPushButton:hover {
+   background-color: rgb(82, 21, 252);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.5);
+}</string>
+         </property>
+         <property name="text">
+          <string>Delete row</string>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
