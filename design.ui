@@ -102,7 +102,7 @@ color:#FFFFFF;
         <x>150</x>
         <y>480</y>
         <width>957</width>
-        <height>141</height>
+        <height>168</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout">
