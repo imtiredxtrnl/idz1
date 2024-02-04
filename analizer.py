@@ -6,10 +6,10 @@ import fitz
 from collections import Counter
 from ResultModel import ResultModel
 from docx import Document
-from pyth.plugins.plaintext.writer import PlaintextWriter
-from pyth.plugins.rtf15.reader import Rtf15Reader
+#from pyth.plugins.plaintext.writer import PlaintextWriter
+#from pyth.plugins.rtf15.reader import Rtf15Reader
 
-class TextAnalizator:
+class TextAnalizatorCore:
     
     path_to_stopwords_file_ru = "stopwords_ru.txt"
     path_to_stopwords_file_ua = "stopwords_ua.txt"
@@ -19,28 +19,16 @@ class TextAnalizator:
     def Analize(path,words,exclude):
         _, file_extension = os.path.splitext(path)
         if file_extension == ".txt":
-            return TextAnalizator.AnalizeTxt(path, words, exclude)
+            return TextAnalizatorCore.AnalizeTxt(path, words, exclude)
         elif file_extension == ".docx":
-            return TextAnalizator.AnalizeDocx(path, words, exclude)
+            return TextAnalizatorCore.AnalizeDocx(path, words, exclude)
         elif file_extension == ".rtf":
-            return TextAnalizator.AnalizeRtf(path, words, exclude)
+            return TextAnalizatorCore.AnalizeRtf(path, words, exclude)
         elif file_extension == ".pdf":
-            return TextAnalizator.AnalizePdf(path, words, exclude)
+            return TextAnalizatorCore.AnalizePdf(path, words, exclude)
         elif file_extension == ".doc":
-            return TextAnalizator.AnalizeDoc(path, words, exclude)
+            return TextAnalizatorCore.AnalizeDoc(path, words, exclude)
 
-
-    @staticmethod
-    def AnalizeRtf(path,words,exclude):
-        try:
-            with open(path, 'r', encoding='utf-8') as rtf_file:
-                doc = Rtf15Reader.read(rtf_file)
-                text = PlaintextWriter.write(doc).getvalue()
-            return TextAnalizator.AnalizeGeneric(text, words, exclude)
-        except Exception as e:
-            print(f"An error occurred: {e}")
-            return None  
-            
 
     @staticmethod
     def AnalizePdf(path, words, exclude):
@@ -51,7 +39,7 @@ class TextAnalizator:
                 for page_number in range(num_pages):
                     page = pdf_document[page_number]
                     text += page.get_text()
-            return TextAnalizator.AnalizeGeneric(text, words, exclude)
+            return TextAnalizatorCore.AnalizeGeneric(text, words, exclude)
         except Exception as e:
             print(f"An error occurred: {e}")
             return None 
@@ -61,7 +49,7 @@ class TextAnalizator:
         try:
             with open(path, 'r',  encoding='utf-8') as file:
                 text = file.read() 
-                return TextAnalizator.AnalizeGeneric(text, words, exclude)
+                return TextAnalizatorCore.AnalizeGeneric(text, words, exclude)
         except Exception as e:
             print(f"An error occurred: {e}")
             return None   
@@ -75,7 +63,7 @@ class TextAnalizator:
             for paragraph in doc.paragraphs:
                 full_text.append(paragraph.text)
             text = '\n'.join(full_text)
-            return TextAnalizator.AnalizeGeneric(text, words, exclude)
+            return TextAnalizatorCore.AnalizeGeneric(text, words, exclude)
         except Exception as e:
             print(f"An error occurred: {e}")
             return None
@@ -89,7 +77,7 @@ class TextAnalizator:
             for paragraph in doc.paragraphs:
                 full_text.append(paragraph.text)
             text = '\n'.join(full_text)
-            return TextAnalizator.AnalizeGeneric(text, words, exclude)
+            return TextAnalizatorCore.AnalizeGeneric(text, words, exclude)
         except Exception as e:
             print(f"An error occurred: {e}")
             return None
@@ -149,11 +137,11 @@ class TextAnalizator:
     def countTextWater(text):
         language, confidence = langid.classify(text)
         if language == "ru":
-            lan_file = TextAnalizator.path_to_stopwords_file_ru
+            lan_file = TextAnalizatorCore.path_to_stopwords_file_ru
         elif language == "uk":
-            lan_file = TextAnalizator.path_to_stopwords_file_ua
+            lan_file = TextAnalizatorCore.path_to_stopwords_file_ua
         elif language == "en":
-            lan_file = TextAnalizator.path_to_stopwords_file_eng
+            lan_file = TextAnalizatorCore.path_to_stopwords_file_eng
         stopwords = []
         with open(lan_file, 'r', encoding='utf-8') as file:
             for line in file:
@@ -163,20 +151,20 @@ class TextAnalizator:
     @staticmethod
     def AnalizeGeneric(text,words,exclude):
         try:
-            stopWordsCount = TextAnalizator.count_specified_words(text, exclude)
-            specifiedCount = TextAnalizator.count_specified_words(text,words)
+            stopWordsCount = TextAnalizatorCore.count_specified_words(text, exclude)
+            specifiedCount = TextAnalizatorCore.count_specified_words(text,words)
             defaultText = text
-            text = TextAnalizator.remove_specified_words_case_insensitive(text, exclude)
-            wordsCount = TextAnalizator.count_words_with_marks(text)
-            stopWords = TextAnalizator.countTextWater(text)
-            waterCount = TextAnalizator.count_specified_words(text,stopWords)/wordsCount * 100
+            text = TextAnalizatorCore.remove_specified_words_case_insensitive(text, exclude)
+            wordsCount = TextAnalizatorCore.count_words_with_marks(text)
+            stopWords = TextAnalizatorCore.countTextWater(text)
+            waterCount = TextAnalizatorCore.count_specified_words(text,stopWords)/wordsCount * 100
             symbolsCount = len(text)
             symbolsNoSpacesCount = len([char for char in text if not char.isspace()])
             lettersCount = sum(char.isalpha() for char in text)
             marksCount = sum(char in string.punctuation for char in text)
-            dist = TextAnalizator.getDistribution(text)
-            text = TextAnalizator.remove_specified_words_case_insensitive(text, stopWords)
-            distNoStopWords = TextAnalizator.getDistribution(text)
+            dist = TextAnalizatorCore.getDistribution(text)
+            text = TextAnalizatorCore.remove_specified_words_case_insensitive(text, stopWords)
+            distNoStopWords = TextAnalizatorCore.getDistribution(text)
             return ResultModel( text=defaultText,
                                 words=wordsCount,
                                 specWords=specifiedCount, 
