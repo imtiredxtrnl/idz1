@@ -1,5 +1,3 @@
-from typing import Text
-import textract 
 import string
 import os
 import re
@@ -8,6 +6,8 @@ import fitz
 from collections import Counter
 from ResultModel import ResultModel
 from docx import Document
+from pyth.plugins.plaintext.writer import PlaintextWriter
+from pyth.plugins.rtf15.reader import Rtf15Reader
 
 class TextAnalizator:
     
@@ -31,6 +31,18 @@ class TextAnalizator:
 
 
     @staticmethod
+    def AnalizeRtf(path,words,exclude):
+        try:
+            with open(path, 'r', encoding='utf-8') as rtf_file:
+                doc = Rtf15Reader.read(rtf_file)
+                text = PlaintextWriter.write(doc).getvalue()
+            return TextAnalizator.AnalizeGeneric(text, words, exclude)
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return None  
+            
+
+    @staticmethod
     def AnalizePdf(path, words, exclude):
         try:
             text = ""
@@ -39,7 +51,7 @@ class TextAnalizator:
                 for page_number in range(num_pages):
                     page = pdf_document[page_number]
                     text += page.get_text()
-            return TextAnalizator.AnalizeGeneric(text,words,exclude)
+            return TextAnalizator.AnalizeGeneric(text, words, exclude)
         except Exception as e:
             print(f"An error occurred: {e}")
             return None 
@@ -49,7 +61,7 @@ class TextAnalizator:
         try:
             with open(path, 'r',  encoding='utf-8') as file:
                 text = file.read() 
-                return TextAnalizator.AnalizeGeneric(text,words,exclude)
+                return TextAnalizator.AnalizeGeneric(text, words, exclude)
         except Exception as e:
             print(f"An error occurred: {e}")
             return None   
@@ -57,7 +69,16 @@ class TextAnalizator:
 
     @staticmethod
     def AnalizeDoc(path, words, exclude):
-        return None
+        try:
+            doc = Document(path)
+            full_text = []
+            for paragraph in doc.paragraphs:
+                full_text.append(paragraph.text)
+            text = '\n'.join(full_text)
+            return TextAnalizator.AnalizeGeneric(text, words, exclude)
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return None
 
     @staticmethod
     def AnalizeDocx(path, words, exclude):
