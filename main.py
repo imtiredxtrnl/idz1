@@ -1,8 +1,9 @@
 import sys
 import os
 from dbcontext import Context
+from ResultModel import ResultModel
 from analizer import TextAnalizatorCore
-from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog
+from PySide6.QtWidgets import QApplication, QMainWindow, QMessageBox, QFileDialog, QPushButton
 from PySide6.QtGui import QStandardItem, QStandardItemModel
 from design import Ui_MainWindow
 
@@ -11,6 +12,7 @@ class TextAnalizator(QMainWindow):
         super(TextAnalizator, self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+        Context.create_table()
         self.generate_report()
         self.ui.btnOpenFile.clicked.connect(self.openFileButtonClicked)
         self.ui.btnClear.clicked.connect(self.clearTextBrowser)
@@ -74,8 +76,42 @@ class TextAnalizator(QMainWindow):
         words_to_search = self.ui.textFieldSearch.toPlainText().split()
         words_to_ignore = self.ui.textFieldIgnore.toPlainText().split()
         result = TextAnalizatorCore.Analize(self.file_path, words_to_search, words_to_ignore)
+        msg_box = QMessageBox()
+        msg_box.setWindowTitle("Result")
+        box_text = self.set_response_str(result)
+        msg_box.setText(box_text)
         result.print_fields()
-
+        ok_button = QPushButton('OK', msg_box)
+        msg_box.addButton(ok_button, QMessageBox.AcceptRole)
+        new_button = QPushButton('Save', msg_box)
+        msg_box.addButton(new_button, QMessageBox.ActionRole)
+        result_choise = msg_box.exec()
+        if result_choise == 1:
+            Context.insert_result(result)
+            self.generate_report()
+            
+        
+    
+    def set_response_str(self, result):
+        res_str = ""
+        res_str += "Total words:" + str(result.words) + "\n"
+        res_str += "Specified words amount:" + str(result.specWords) + "\n"
+        res_str += "Symbols:" + str(result.symbols) + "\n"
+        res_str += "Symbols (No Spaces):" + str(result.symbolsNoSpaces) + "\n"
+        res_str += "Letters:" + str(result.letters) + "\n"
+        res_str += "Foreign Words:" + str(result.foreignWords) + "\n"
+        res_str += "Water percentage:" + str(result.waterPercenatge) + "\n"
+        res_str += "Marks:" + str(result.marks) + "\n"
+        res_str += "Stop Words:" + str(result.stopWords) + "\n"
+        res_str += "Words distribution through text with water:" + "\n"
+        for word, count, percentage in result.wordsDistribution:
+            res_str += (f"Word: {word}, Count: {count}, Percentage: {percentage:.2f}%") + "\n"
+        res_str += "Words distribution through text without water:" + "\n"
+        for word, count, percentage in result.wordsDistributionNoStopWords:
+            res_str += (f"Word: {word}, Count: {count}, Percentage: {percentage:.2f}%") 
+        return res_str
+        
+        
 
 
 

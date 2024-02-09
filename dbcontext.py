@@ -39,24 +39,28 @@ class Context:
 
     @staticmethod
     def insert_result(result):
-        conn, cursor = Context.connect()
-        insert_data_query = '''
-        INSERT INTO result_data (
-            text, words, specWords, symbols, symbolsNoSpaces, letters, foreignWords, waterPercentage,
-            marks, stopWords, wordsDistribution, wordsDistributionNoStopWords
-        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
-        '''
+        try:
+            conn, cursor = Context.connect()
+            insert_data_query = '''
+            INSERT INTO result_data (
+                text, words, specWords, symbols, symbolsNoSpaces, letters, foreignWords, waterPercentage,
+                marks, stopWords, wordsDistribution, wordsDistributionNoStopWords
+            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            '''
 
-        data_to_insert = (
-            result.text, result.words, result.specWords, result.symbols,
-            result.symbolsNoSpaces, result.letters, result.foreignWords,
-            result.waterPercenatge, result.marks, result.stopWords,
-            str(result.wordsDistribution), str(result.wordsDistributionNoStopWords)
-        )
+            data_to_insert = (
+                result.text, result.words, result.specWords, result.symbols,
+                result.symbolsNoSpaces, result.letters, result.foreignWords,
+                result.waterPercenatge, result.marks, result.stopWords,
+                str(result.wordsDistribution), str(result.wordsDistributionNoStopWords)
+            )
 
-        cursor.execute(insert_data_query, data_to_insert)
-        conn.commit()
-        Context.disconnect(conn)
+            cursor.execute(insert_data_query, data_to_insert)
+            conn.commit()
+            Context.disconnect(conn)
+        except Exception as e:
+            print(f"An error occurred: {e}")
+            return None
 
     @staticmethod
     def get_all_results():
